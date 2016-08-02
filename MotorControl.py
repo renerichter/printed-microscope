@@ -1,3 +1,14 @@
+"""
+
+This is the Python 3.5 implementation of the control of the three stepper
+motors being used in the 3D printed microscope. The three stepper motors are
+controlled using the GPIO pins of the Raspberry Pi. Additionally, a GUI is
+being developed to automate the control process, as well as integrate with the
+PiCamera to be able to take, save, and analyze images using the 3D printed 
+microscope.
+
+"""
+
 # -*- coding: utf-8 -*-
 
 
