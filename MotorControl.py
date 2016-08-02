@@ -1,22 +1,36 @@
 # -*- coding: utf-8 -*-
 
+
+# Define and initialize an array to keep track of the
+# position of the motors
+# The array is in the format of [x, y, z] in numbers of steps
+
 position=[0,0,0]
 
-def motor1(steptime,numberofsteps): 
+# Define a function that turns motor 1 with input parameters
+# of the time between steps [seconds] and the
+# number of steps to turn
+
+# For usage, call motor_1 with arguments for the time delay
+# between steps and then the number of steps to turn. For a
+# clockwise rotation, numberofsteps is positive, and for a
+# counterclockwise rotation, numberofsteps is negative
+
+def motor_1(steptime,numberofsteps): 
 
     from time import sleep
     import RPi.GPIO as GPIO
 
     GPIO.setmode(GPIO.BCM)
 
-    # Verwendete Pins am Rapberry Pi
+    # Used Pins on the Rapberry Pi
     A=18
     B=23
     C=24
     D=25
     time = steptime
 
-    # Pins als Ausgänge definieren
+    # Define the pins as GPIO outputs
     GPIO.setup(A,GPIO.OUT)
     GPIO.setup(B,GPIO.OUT)
     GPIO.setup(C,GPIO.OUT)
@@ -26,7 +40,7 @@ def motor1(steptime,numberofsteps):
     GPIO.output(C, False)
     GPIO.output(D, False)
 
-    # Schritte 1 - 8 festlegen
+    # Define steps 1-8 for the stepper motor sequence
     def Step1():
         GPIO.output(D, True)
         sleep (time)
@@ -75,7 +89,10 @@ def motor1(steptime,numberofsteps):
         GPIO.output(D, False)
         GPIO.output(A, False)
 
-    # Step sequence defined over a number of steps    
+    # Define the step sequence, 1 -> 8 for clockwise
+    # 8 -> 1 for counterclockwise, and rotate the
+    # appropriate number of steps
+
     for i in range (abs(numberofsteps)):
 
         # Depending on the sign of the number of steps,
@@ -91,8 +108,9 @@ def motor1(steptime,numberofsteps):
             Step6()
             Step7()
             Step8()
-            # Update the position array
+            # Update the x position  in the position array
             position[0] += 1
+            # Optionally, print the latest position
             print position
             
         if numberofsteps < 0:
@@ -105,29 +123,40 @@ def motor1(steptime,numberofsteps):
             Step3()
             Step2()
             Step1()  
-            # Update the position array
+            # Update the x position of the position array
             position[0] -= 1
+            # Optionally, print the latest position
             print position
     GPIO.cleanup()
 
     return;
 
+# Define a function that turns motor 2 with input parameters
+# of the time between steps [seconds] and the
+# number of steps to turn
 
-def motor2(steptime,numberofsteps): 
+# For usage, call motor_2 with arguments for the time delay
+# between steps and then the number of steps to turn. For a
+# clockwise rotation, numberofsteps is positive, and for a
+# counterclockwise rotation, numberofsteps is negative# Same exact code as given for motor_1. Same usage and
+# method, simply using a different set of pins to control
+# a different motor
+
+def motor_2(steptime,numberofsteps): 
 
     from time import sleep
     import RPi.GPIO as GPIO
 
     GPIO.setmode(GPIO.BCM)
 
-    # Verwendete Pins am Rapberry Pi
+    # Pins used on the Raspberry Pi
     A=12
     B=16
     C=20
     D=21
     time = steptime
 
-    # Pins als Ausgänge definieren
+    # Define the pins as GPIO outputs
     GPIO.setup(A,GPIO.OUT)
     GPIO.setup(B,GPIO.OUT)
     GPIO.setup(C,GPIO.OUT)
@@ -137,7 +166,7 @@ def motor2(steptime,numberofsteps):
     GPIO.output(C, False)
     GPIO.output(D, False)
 
-    # Schritte 1 - 8 festlegen
+    # Define steps 1-8
     def Step1():
         GPIO.output(D, True)
         sleep (time)
@@ -186,7 +215,11 @@ def motor2(steptime,numberofsteps):
         GPIO.output(D, False)
         GPIO.output(A, False)
 
-    # Step sequence defined over a number of steps    
+    # Define the step sequence, 1 -> 8 for clockwise
+    # 8 -> 1 for counterclockwise, and rotate the
+    # appropriate number of steps
+
+    
     for i in range (abs(numberofsteps)):
 
         # Depending on the sign of the number of steps,
@@ -202,8 +235,9 @@ def motor2(steptime,numberofsteps):
             Step6()
             Step7()
             Step8()  
-            # Update the position array
+            # Update the y position in the position array
             position[1] += 1
+            # Optionally, print the updated position
             print position
             
         if numberofsteps < 0:
@@ -216,28 +250,40 @@ def motor2(steptime,numberofsteps):
             Step3()
             Step2()
             Step1()  
-            # Update the position array
+            # Update the y position in the position array
             position[1] -= 1
+            # Optionally, print the updated position
             print position
     GPIO.cleanup()
 
     return;
 
-def motor3(steptime,numberofsteps):
+# Define a function that turns motor 3 with input parameters
+# of the time between steps [seconds] and the
+# number of steps to turn
+
+# For usage, call motor_3 with arguments for the time delay
+# between steps and then the number of steps to turn. For a
+# clockwise rotation, numberofsteps is positive, and for a
+# counterclockwise rotation, numberofsteps is negative# Same exact code as given for motor_1. Same usage and
+# method, simply using a different set of pins to control
+# a different motor
+
+def motor_3(steptime,numberofsteps):
 
     from time import sleep
     import RPi.GPIO as GPIO
 
     GPIO.setmode(GPIO.BCM)
 
-    # Verwendete Pins am Rapberry Pi
+    # Pins used on the Raspberry Pi
     A=4
     B=17
     C=27
     D=22
     time = steptime
 
-    # Pins als Ausgänge definieren
+    # Define the pins as GPIO outputs
     GPIO.setup(A,GPIO.OUT)
     GPIO.setup(B,GPIO.OUT)
     GPIO.setup(C,GPIO.OUT)
@@ -247,7 +293,7 @@ def motor3(steptime,numberofsteps):
     GPIO.output(C, False)
     GPIO.output(D, False)
 
-    # Schritte 1 - 8 festlegen
+    # Define steps 1-8
     def Step1():
         GPIO.output(D, True)
         sleep (time)
@@ -296,7 +342,9 @@ def motor3(steptime,numberofsteps):
         GPIO.output(D, False)
         GPIO.output(A, False)
 
-    # Step sequence defined over a number of steps    
+    # Define the step sequence, 1 -> 8 for clockwise
+    # 8 -> 1 for counterclockwise, and rotate the
+    # appropriate number of steps    
     for i in range (abs(numberofsteps)):
 
         # Depending on the sign of the number of steps,
@@ -312,8 +360,9 @@ def motor3(steptime,numberofsteps):
             Step6()
             Step7()
             Step8()  
-            # Update the position array
+            # Update the z position in the position array
             position[2] += 1
+            # Optionally, print the updated position array
             print position
             
         if numberofsteps < 0:
@@ -326,38 +375,82 @@ def motor3(steptime,numberofsteps):
             Step3()
             Step2()
             Step1()  
-            # Update the position array
+            # Update the z position in the position array
             position[2] -= 1
+            # Optionally, print the updated position array
             print position
     GPIO.cleanup()
 
     return;
 
+# Import time to be able to stop the process for a defined
+# amount of time
+
 import time
-def scan(xstart,ystart,zstart,xmax,ymax,zmax,xspeed,yspeed,zspeed):
+
+# Define a function that scans through an xy plane at an
+# arbitrary position in z.
+
+def xy_scan(xmax,ymax,xspeed,yspeed):
+
+    # Define some local variables to keep track of how far
+    # the motors have scanned
+
     x = 0;
     y = 0;
-    z = 0;
-
-    #Move to the initial position
-    motor1(0.001,xstart);
-    motor2(0.001,ystart);
-    motor3(0.001,zstart);
+    
     #Stop movement to allow things to settle
+    
     time.sleep(0.1); 
 
-    position = [0,0,0];
-    
-    while z <= zmax:
-        motor3(zspeed,1);
-        z += 1;
-        while y <= ymax:
-                motor1(xspeed,xmax);
-                motor2(yspeed,1);
-                y += 1;
-                motor1(xspeed,-xmax);
-                motor2(yspeed,1);
-                y += 1;
-        
 
-scan(10,20,30,10,10,10,0.001,0.001,0.001);
+    # MIGHT NEED TO GENERALIZE TO INCLUDE ARBITRARILY LARGE
+    # STEPS BETWEEN EACH SCANNED ROW
+
+    # For all values of y less than the defined maximum y
+    # range, scan through in x from the starting x position
+    # through to the defined x maximum and then return
+    
+    while y <= ymax:
+            motor_1(xspeed,xmax);
+            motor_2(yspeed,1);
+            y += 1;
+            if y <= ymax:
+                motor_1(xspeed,-xmax);
+                motor_2(yspeed,1);
+                y += 1;
+
+    return;
+    
+
+# Define a function that scans through an entire xyz region
+
+def xyz_scan(xstart,ystart,zstart,xmax,ymax,zmax,xspeed,yspeed,zspeed):
+
+    # Move to the initial position
+    
+    motor_1(0.001,xstart);
+    motor_2(0.001,ystart);
+    motor_3(0.001,zstart);
+
+    # Define a local variable to keep track of the z position
+    
+    z = 0;
+
+    # Scan through the defined xmax, ymax range at each z
+    # position within the defined zmax range
+    
+    while z < zmax:
+        xy_scan(xmax,ymax,xspeed,yspeed)
+        motor_3(zspeed,1);
+        z += 1;
+        if position[0] >= xmax:
+            motor_1(xspeed,-xmax-1);
+        if position[1] >= ymax:
+            motor_2(yspeed,-ymax-1);
+            
+    return;
+
+#xy_scan(19,24,0.001,0.001)
+xyz_scan(0,0,0,10,10,4,0.001,0.001,0.001)
+
