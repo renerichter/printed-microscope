@@ -29,10 +29,10 @@ Our first project is based on reconstructing the work as presented by Richard W.
 ### ToDo
 | Snehal  				| Elsie 			| Scott					|
 | ------------- 			| ------------- 		| ------------- 			|
-| - [] Damping/Attenuation  		| - [] Calibration / Improv.	| - [] Code for Image-Acquisition	|
-| - [] Vibr.Analysis  			| - [] Testing diff. Samples  	| - [] Documentation			|
-| - [] Redesign of Parts in Inventor  	| - [] Comparison Elyra/Confocal| 					|
-| - [] Documentation		 	| - [] Documentation		|  					|
+| - [ ] Damping/Attenuation  		| - [] Calibration / Improv.	| - [] Code for Image-Acquisition	|
+| - [ ] Vibr.Analysis  			| - [] Testing diff. Samples  	| - [] Documentation			|
+| - [ ] Redesign of Parts in Inventor  	| - [] Comparison Elyra/Confocal| 					|
+| - [ ] Documentation		 	| - [] Documentation		|  					|
 
 ### The Setup
 The Setup hence consists out of the following parts and all necesarry files can be found in the subfoulder <name>. 
