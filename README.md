@@ -6,8 +6,8 @@ Here we are going to present our work, efforts and results on the 3d-printed mic
 The idea of our project itself is based on the fabulous work of Richard W. Bowman (link) and his crew. [Paper](https://www.repository.cam.ac.uk/handle/1810/253365)
  
 ### Printing and Assembling the Microscope: 
-- Printable-Files and Documentation > https://github.com/rwb27/openflexure_microscope#kits-and-license 
-- Assembling on easy Example > http://docubricks.com/viewer.jsp?id=1044562654723960832
+- [Printable-Files and Documentation](https://github.com/rwb27/openflexure_microscope#kits-and-license) 
+- [Assembling on easy Example](http://docubricks.com/viewer.jsp?id=1044562654723960832)
 
 If you - like us - feel the temptation to change the designs to your special needs, you can open and edit them using the following tools: 
 - [OpenSCAD](http://www.openscad.org/) > programmable CAD
