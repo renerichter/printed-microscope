@@ -1,4 +1,0 @@
-
-
-R - Set the image resolution
-T - Set the preview length
