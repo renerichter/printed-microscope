@@ -19,6 +19,9 @@ Functionality includes:
 - H provides a simple help menu summarizing functions
 - Take a simple time stamped image
 - Take a simple time stamped video of a given length in seconds
+- Change the self directory (where the help.txt and saved_position.txt files
+    are located) and the save directory, where the image and video files
+    are stored.
 
 """
 
@@ -32,21 +35,30 @@ import sys
 from time import sleep 
 import RPi.GPIO as GPIO
 
-# Set the directory appropriately such that the program can find the
+# Initialize the directory appropriately such that the program can find the
 # associated text files for the help menu and the saved position.
 
-os.chdir('/home/pi/Documents/3D Printed Microscope Project/PiCamImageCapture')
+directory_self = "/home/pi/Documents/3D Printed Microscope Project/PythonPiCamera"
+directory_save = "/home/pi/Documents/3D Printed Microscope Project/PiCamImageCapture"
+
+os.chdir(directory_save)
+
+# Initialize some camera settings
+
+camera_resolution = (640,480)
 
 # Define the function that will take a simple image and save it to the 
 # defined save directory with a file name that is the timestamp 
 # at which the image was taken.
 
 def Snapshot():
+    os.chdir(directory_save)    
     camera = picamera.PiCamera()
     try:
         #camera.start_preview()
         #time.sleep(10)
-        image_time = datetime.datetime.now()
+        camera.resolution = camera_resolution
+        image_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         camera.capture(str(image_time)+'.jpg')
         #camera.stop_preview()
     finally:
@@ -58,9 +70,10 @@ def Snapshot():
 # Need to prompt the user for the desired video length in seconds.
 
 def VidClip(vidlength):
+    os.chdir(directory_save)
     with picamera.PiCamera() as camera:
         camera.resolution = (640,480)
-        vid_time = datetime.datetime.now()
+        vid_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         camera.start_recording(str(vid_time)+'.h264')
         camera.wait_recording(vidlength)
         camera.stop_recording()
@@ -72,35 +85,35 @@ def VidClip(vidlength):
 # position.
 
 def UpdatePositionFile():
-        os.chdir('/home/pi/Documents/3D Printed Microscope Project/PythonPiCamera')        
+        os.chdir(directory_self)        
         w = open('saved_position.txt', 'w')
         w.write(str(position[0]) + '\n')
         w.write(str(position[1]) + '\n')
         w.write(str(position[2]))
         w.close()
-        os.chdir('/home/pi/Documents/3D Printed Microscope Project/PiCamImageCapture')
+        os.chdir(directory_save)
 
 # This function reads the position that is saved in the saved_positions.txt 
 # file. It will print the saved values to the console window.
 
 def ReadPositionFile():
-        os.chdir('/home/pi/Documents/3D Printed Microscope Project/PythonPiCamera')
+        os.chdir(directory_self)
         f = open('saved_position.txt', 'r')
         saved_values = f.read()
         print (saved_values)
         f.close()
-        os.chdir('/home/pi/Documents/3D Printed Microscope Project/PiCamImageCapture')
+        os.chdir(directory_save)
 
 # This function sets the position array to the values that are saved in the
 # saved_positions.txt file.
 
 def SetPositionFromFile():
-        os.chdir('/home/pi/Documents/3D Printed Microscope Project/PythonPiCamera')
+        os.chdir(directory_self)
         r = open('saved_position.txt', 'r')
         lines = r.readlines()
         for i in range(0,3):
             position[i] = int(lines[i].strip('\n'))
-        os.chdir('/home/pi/Documents/3D Printed Microscope Project/PiCamImageCapture')
+        os.chdir(directory_save)
 
 # Initialize the position array, set the values of this array from the saved
 # file, saved_positions.txt, and finally define the maximum allowable position
@@ -316,14 +329,14 @@ while True:
     
     if user_command == 'H':
 
-        os.chdir('/home/pi/Documents/3D Printed Microscope Project/PythonPiCamera')      
+        os.chdir(directory_self)      
         
         f = open('help.txt', 'r')
         help_menu = f.read()
         print (help_menu)
         f.close()
         
-        os.chdir('/home/pi/Documents/3D Printed Microscope Project/PiCamImageCapture') 
+        os.chdir(directory_save) 
     
     # If a picture is requested call the Snapshot() function
     
@@ -397,3 +410,51 @@ while True:
     elif user_command == 'EE':
         MotorMove(2,100,0.001)
         PrintPosition()
+        
+    # The following commands can be used to change the self and save
+    # directories. The self directory keeps the help.txt and saved_positions.txt
+    # files which are required for the program to run properly.
+    # The save directory determines where the image and video files are saved.
+    
+    elif user_command == 'G':
+        directory_menu = str(input('Type \'R\' to change the self directory and \'T\' to change the save directory. Any other entry will exit this menu.\nEnter your option here: '))
+        if directory_menu == 'R':
+            directory_self = str(input('Enter the new self directory here: '))
+        elif directory_menu == 'T':
+            directory_save = str(input('Enter the new save directory here: '))
+        else:
+            directory_self = directory_self
+            directory_save = directory_save
+    
+    # This part controls the camera settings menu. There's another txt file,
+    # camera_menu.txt that outlines what the options are.
+    elif user_command == 'C':
+        
+        # Find the camera_menu.txt file and display the contents        
+        os.chdir(directory_self)      
+        
+        f = open('camera_menu.txt', 'r')
+        help_menu = f.read()
+        print (help_menu)
+        f.close()
+        os.chdir(directory_save) 
+        
+        # Prompt the user for an option in the camera menu
+        camera_settings_menu = str(input('Enter your choice here: '))
+        
+        # If the user wants to change the image resolution        
+        if camera_settings_menu == 'R':
+            # Give the user three options for images, corresponding to the
+            # three built in image resolutions for the camera.
+            print ('L - 2592 x 1944 \nM - 1296 x 972 \nS - 640 x 480 \nAny other key - exit')            
+            
+            # Change the resolution accordingly.
+            new_resolution = input('Change the image resolution: ')           
+            if new_resolution == 'L':
+                camera_resolution = (2592,1944)
+            elif new_resolution == 'M':
+                camera_resolution = (1296,972)
+            elif new_resolution == 'S':
+                camera_resolution = (640,480)
+            else:
+                camera_resolution = camera_resolution
