@@ -1,7 +1,8 @@
 
 
 H - Help Menu 
-P - Take a picture 
+P - Take a picture
+T - View an image preview 
 V - Take a video clip
 X - Exit the program
 
@@ -25,6 +26,11 @@ E - Move down a small step in the z plane
 
 QQ - Move up a large step in the z plane
 EE - Move down a large step in the z plane
+
+--- Saving current position ---
+
+N - Save the current position
+M - Return to the saved position
 
 --- Advanced Settings ---
 
