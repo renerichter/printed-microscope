@@ -1,0 +1,39 @@
+
+
+H - Help Menu 
+P - Take a picture
+T - View an image preview 
+V - Take a video clip
+X - Exit the program
+
+---  The following controls are for  ---
+--- moving around in the image space ---
+
+W - Up a small step
+S - Down a small step
+A - Left a small step
+D - Right a small step
+
+WW - Up a large step
+SS - Down a large step
+AA - Left a large step
+DD - Right a large step
+
+--- These controls are for finding the focus ---
+
+Q - Move up a small step in the z plane
+E - Move down a small step in the z plane
+
+QQ - Move up a large step in the z plane
+EE - Move down a large step in the z plane
+
+--- Saving current position ---
+
+N - Save the current position
+M - Return to the saved position
+
+--- Advanced Settings ---
+
+G - Open menu to change self and save directories
+C - Open menu to change camera settings
+
