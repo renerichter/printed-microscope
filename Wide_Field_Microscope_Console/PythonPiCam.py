@@ -22,6 +22,15 @@ Functionality includes:
 - Change the self directory (where the help.txt and saved_position.txt files
     are located) and the save directory, where the image and video files
     are stored.
+- Change the image resolution through a "camera settings" menu
+- Show a preview of the current scene in the image plane
+- Change the length of the preview through the "camera settings" menu
+- Display the contents of camera_settings.txt to provide helpful information
+    about how to navigate the camera settings menu
+- Allow the user to save a temporary position that can be returned to at a 
+    later time. Currently done by number of steps away from saved point.
+    If this functionality is called at program launch, the microscope stage
+    will return to the origin.
 
 """
 
@@ -34,6 +43,8 @@ import datetime
 import sys
 from time import sleep 
 import RPi.GPIO as GPIO
+import time
+import operator
 
 # Initialize the directory appropriately such that the program can find the
 # associated text files for the help menu and the saved position.
@@ -46,6 +57,7 @@ os.chdir(directory_save)
 # Initialize some camera settings
 
 camera_resolution = (640,480)
+preview_length = 3
 
 # Define the function that will take a simple image and save it to the 
 # defined save directory with a file name that is the timestamp 
@@ -55,12 +67,9 @@ def Snapshot():
     os.chdir(directory_save)    
     camera = picamera.PiCamera()
     try:
-        #camera.start_preview()
-        #time.sleep(10)
         camera.resolution = camera_resolution
         image_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         camera.capture(str(image_time)+'.jpg')
-        #camera.stop_preview()
     finally:
         camera.close()
 
@@ -77,6 +86,19 @@ def VidClip(vidlength):
         camera.start_recording(str(vid_time)+'.h264')
         camera.wait_recording(vidlength)
         camera.stop_recording()
+
+# Define a function that will display a preview of what is in the image plane.
+# Takes an argument that defines the length of the preview.
+
+def Preview(length):
+    camera = picamera.PiCamera()
+    try:
+        camera.resolution = camera_resolution
+        camera.start_preview()
+        time.sleep(length)
+        camera.stop_preview()
+    finally:
+        camera.close()
 
 # This is the function that opens the saved_position.txt file, and writes
 # the latest position to the file. This saved file is used to keep track of
@@ -123,6 +145,11 @@ def SetPositionFromFile():
 position = [0,0,0]
 SetPositionFromFile() 
 max_position = [2000,2000,2000]
+
+# Set a temporary position that is used for saving locations that the user
+# wants to return to at a later time
+
+temp_position = [0,0,0]
 
 # Define a function that simply prints the latest value of the position array
 # to the console.
@@ -343,6 +370,11 @@ while True:
     elif user_command == 'P':
         Snapshot()
     
+    # If a preview is requested call the Preview(length) function
+    
+    elif user_command == 'T':
+        Preview(preview_length)
+    
     # If a video is requested, prompt the user for the length of the video
     # Then call the VidClip(vidlength) function.
     
@@ -360,8 +392,8 @@ while True:
     # The following six commands give movement in small steps of 10 stepper
     # motor steps in both directions of the x, y, and z travel directions.
     
-    elif user_command == 'A':
-        MotorMove(0,-10,0.001)
+    elif user_command == 'A':          
+        MotorMove(0,-10,0.001)         
         PrintPosition()
         
     elif user_command == 'D':
@@ -410,6 +442,21 @@ while True:
     elif user_command == 'EE':
         MotorMove(2,100,0.001)
         PrintPosition()
+    
+    # Allow the user to temporarily save a position that can be returned to
+    # later with a single command. Use N to save the current position to the
+    # temp_position array, and use M to return to that saved position at any
+    # later time.
+    
+    elif user_command == 'N':
+        for y in range(0,3):
+            temp_position[y] = position[y]
+
+    elif user_command == 'M':
+        for x in range(0,3):
+            MotorMove(x,(temp_position[x] - position[x]),0.001)
+
+        print (position)
         
     # The following commands can be used to change the self and save
     # directories. The self directory keeps the help.txt and saved_positions.txt
@@ -458,3 +505,9 @@ while True:
                 camera_resolution = (640,480)
             else:
                 camera_resolution = camera_resolution
+        
+        # Allow for the preview length to be adjustable
+        if camera_settings_menu == 'T':
+            new_preview_length = int(input('Please enter the new preview length in seconds: '))
+            preview_length = new_preview_length
+        
