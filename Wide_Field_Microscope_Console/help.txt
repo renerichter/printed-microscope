@@ -26,3 +26,8 @@ E - Move down a small step in the z plane
 QQ - Move up a large step in the z plane
 EE - Move down a large step in the z plane
 
+--- Advanced Settings ---
+
+G - Open menu to change self and save directories
+C - Open menu to change camera settings
+
