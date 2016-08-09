@@ -30,10 +30,15 @@ EE - Move down a large step in the z plane
 --- Saving current position ---
 
 N - Save the current position
+K - Print the saved position
 M - Return to the saved position
+B - Return to the origin (0,0,0)
 
 --- Advanced Settings ---
 
 G - Open menu to change self and save directories
 C - Open menu to change camera settings
+J - Open menu to change stepper motor settings
+O - Perform a z scan while taking images at constant
+	intervals
 
