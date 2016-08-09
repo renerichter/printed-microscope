@@ -2,3 +2,5 @@
 
 R - Set the image resolution
 T - Set the preview length
+Any other key - exit
+
