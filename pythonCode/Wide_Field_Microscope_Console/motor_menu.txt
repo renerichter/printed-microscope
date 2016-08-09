@@ -1,0 +1,7 @@
+
+
+S - Set the small step size
+L - Set the large step size
+T - Set the time pause between steps (in ms)
+Any other key - exit
+
