@@ -1,0 +1,9 @@
+
+
+L - 2592 x 1944
+M - 1296 x 972
+S - 640 x 480
+
+Any other key - exit
+
+
