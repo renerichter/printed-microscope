@@ -1,0 +1,8 @@
+
+
+D - Display the current directories
+R - Set the self directory
+T - Set the save directory
+
+Any other key - exit
+
